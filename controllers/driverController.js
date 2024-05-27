@@ -2,11 +2,12 @@ const _db = require("../config/db");
 const bcrypt = require("../utils/bcrypt");
 const jwt = require("../utils/jwt");
 const { ObjectId } = require("mongodb");
+require("dotenv").config()
 
 exports.getDriverLogin = async (req, res) => {
   try {
     let access_token = req.cookies["accesstoken"];
-    let decoded_jwt = await jwt.verify(access_token, "secret");
+    let decoded_jwt = await jwt.verify(access_token, process.env.jwt_secret);
 
     if (decoded_jwt.role === "driver" && decoded_jwt.id) {
       res.redirect("/driver/dashboard");
@@ -28,7 +29,7 @@ exports.loginDriver = async (req, res) => {
     let isPasswordOk = bcrypt.comparePassword(password, password_in_db);
 
     if (isPasswordOk) {
-      let access_token = jwt.sign({ id: result._id, role: "driver" }, "secret");
+      let access_token = jwt.sign({ id: result._id, role: "driver" }, process.env.jwt_secret);
       res.cookie("accesstoken", access_token);
       res.redirect("/driver/dashboard");
     } else {

@@ -1,10 +1,11 @@
 const jwt = require("../utils/jwt");
+require("dotenv").config();
 
 const authMiddleware = (req, res, next) => {
   const token = req.cookies["accesstoken"];
 
   try {
-    jwt.verify(token, "secret", (err, mail) => {
+    jwt.verify(token, process.env.jwt_secret, (err, mail) => {
       if (err) {
         console.log(err);
         res.status(403).json("You are not logged in :(");
