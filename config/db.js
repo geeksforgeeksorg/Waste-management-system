@@ -1,5 +1,7 @@
+require("dotenv").config()
+
 let mongo_client = require("mongodb").MongoClient;
-let url = "mongodb://localhost:27017/waste_management_system";
+let url = process.env.db_url;
 let _db;
 
 module.exports = {

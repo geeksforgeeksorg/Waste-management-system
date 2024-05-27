@@ -3,7 +3,7 @@ let router = express.Router();
 let bcrypt = require("bcrypt");
 let session = require("express-session");
 const jwt = require("jsonwebtoken");
-let _db = require("./db");
+let _db = require("./config/db");
 const { ObjectId, ReturnDocument } = require("mongodb");
 
 
