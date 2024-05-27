@@ -2,7 +2,7 @@
   "name": "waste-management-system",
   "version": "1.0.0",
   "description": "This is a project to build a smart way to manage wastes",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "start": "npx nodemon",
     "test": "echo \"Error: no test specified\" && exit 1"

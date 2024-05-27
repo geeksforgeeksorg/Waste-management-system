@@ -135,7 +135,6 @@ router.get("/dashboard", isAdminLoggedin, async (req, res) => {
     const total_van = driverData.filter((item) => item.vehicleType == "Van").length
     const total_motorcycle = driverData.filter((item) => item.vehicleType == "Motorcycle").length
 
-    console.log(driverData)
 
 
     res.render("admin/adminDashboard.ejs", {
@@ -292,7 +291,6 @@ router.post("/create-driver", isAdminLoggedin, async (req, res) => {
     let db = _db.getDb();
     let body = req.body;
 
-    console.log(body)
 
     //let isEmail = await db.collection("drivers").findOne({ email: body.email })
     //let isPhone = await db.collection("drivers").findOne({ phone: body.phone });

@@ -59,7 +59,7 @@ router.post("/login_process", async (req, res) => {
 router.get("/dashboard", isDriverLoggedIn, async (req, res) => {
     try{
     let db = _db.getDb();
-    console.log(req.driverId)
+
     let result = await db.collection("requests").find({
         assignedDriverId: `${req.driverId}`
     }, {
@@ -148,7 +148,7 @@ router.get("/reject-request", isDriverLoggedIn, async (req, res) => {
 router.get("/history", isDriverLoggedIn, async (req, res) => {
     try{
         let db = _db.getDb();
-        console.log(req.driverId)
+
         let result = await db.collection("requests").find({assignedDriverId: req.driverId}, { projection: { _id: false } }).toArray();
         res.render("driver/history.ejs", {
             requests: result.reverse()
