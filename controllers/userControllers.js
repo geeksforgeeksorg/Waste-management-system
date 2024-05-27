@@ -1,11 +1,11 @@
 const jwt = require("../utils/jwt");
 const bcrypt = require("../utils/bcrypt");
 const _db = require("../config/db");
-
+require("dotenv").config
 
 exports.getHomepage = (req, res) => {
   let token = req.cookies["accesstoken"];
-  jwt.verify(token, "secret", (err, user) => {
+  jwt.verify(token, process.env.jwt_secret, (err, user) => {
     if (err) {
       // Render the landing page if not logged in
       res.render("user/homepage.ejs");
@@ -70,7 +70,7 @@ exports.loginUser = async (req, res) => {
     if (!is_password_right) {
       res.send("Email or password is wrong");
     } else {
-      let access_token = jwt.sign({ email }, "secret", { expiresIn: "5h" });
+      let access_token = jwt.sign({ email }, process.env.jwt_secret, { expiresIn: "5h" });
       res.cookie("accesstoken", access_token);
       console.log("User logged in");
       res.redirect("/home");
@@ -82,7 +82,7 @@ exports.loginUser = async (req, res) => {
 
 exports.getUserDashboard = async (req, res) => {
   let token = req.cookies["accesstoken"];
-  let email = jwt.decode(token, "secret").email;
+  let email = jwt.decode(token, process.env.jwt_secret).email;
   let db = _db.getDb();
 
   let result = await db
@@ -142,7 +142,7 @@ exports.getRaiseRequestPage = (req, res) => {
 
 exports.submitRequest = (req, res) => {
   let token = req.cookies["accesstoken"];
-  let email = jwt.decode(token, "secret").email;
+  let email = jwt.decode(token, process.env.jwt_secret).email;
   let data_to_insert_in_db = req.body;
   data_to_insert_in_db.email = email;
   data_to_insert_in_db.status = "pending";
@@ -163,7 +163,7 @@ exports.submitRequest = (req, res) => {
 
 
 exports.getMyRequests = async (req, res) => {
-  let email = jwt.decode(req.cookies["accesstoken"], "secret").email;
+  let email = jwt.decode(req.cookies["accesstoken"], process.env.jwt_secret).email;
   let db = _db.getDb();
 
   try {
